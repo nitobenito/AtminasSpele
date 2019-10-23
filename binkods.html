@@ -96,15 +96,6 @@
         }
         cikKl++;
     }
-    function parbauda1(p,o){
-        let x=p.innerHTML; let y=o.innerHTML;
-        if(y.length==3&&x.length!=3&&bin[Number(x)+4]==y){
-            return true;
-        }else if(x.length==3&&y.length!=3&&bin[Number(y)+4]==x){
-            return true;
-        }
-        return false;
-    }
     function parbauda(p,o){
         let xs=p.src;
         let x=xs.substring(xs.indexOf("b")+1,xs.indexOf(".")); 
