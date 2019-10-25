@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html lang="lv">
+<!DOCTYPE html> <!-- html5 jāsākas ar šo -->
+<html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title> binKods </title>
 <style>
    .laukums {
@@ -22,7 +22,7 @@
     width: 80px;
   }
   
-  .laiks, .punkti {
+  .laiks {
     font-weight: bold;
   }
  </style>
@@ -35,8 +35,7 @@
     let cikKl=0;
     let pirmais,otrais;
     let atlauts=true;
-    let laiks = 200; // cik ilgi notiks spēle
-    let punkti = 0;
+    let laiks = 60; // cik ilgi notiks spēle
     function izveido(){
          for(let i=0;i<bin.length;i++){
             saraksts.push(bin[i]);
@@ -57,7 +56,7 @@
             for(let j=0;j<4;j++){
                 let divK = document.createElement("DIV");
                 let sk = document.createElement("IMG");
-                sk.src="b"+saraksts[i*4+j]+".jpg";
+                sk.src="b"+saraksts[i*4+j]+".jpg"; 
                 sk.style.display="none";
                 divK.className="skaitlis";
                 divK.appendChild(sk);
@@ -77,49 +76,8 @@
         pLaiks.className="laiks";
         pLaiks.innerText = "Laiks:" + laiks;
         document.getElementById("spele").appendChild(pLaiks);
-
-        // pievieno punktus uz ekrāna
-        let pPunkti = document.createElement("p");
-        pPunkti.id = "idPunkti";
-        pPunkti.className="punkti";
-        pPunkti.innerText = "Punkti:" + punkti;
-        document.getElementById("spele").appendChild(pPunkti);
     }
-    function pieskaitaPunktu() {
-        punkti = punkti+1;
-        if( punkti < 8 ) {
-            document.getElementById("idPunkti").innerText = "Punkti:" + punkti;
-        } else {
-            document.getElementById("idPunkti").innerText = "Uzvara!";
-            setTimeout(()=>{
-                let vards=prompt("Ievadi savu vardu!");
-                s={"vards":vards,"punkti":laiks};
-                dabutRezultatuTabulu(s, paraditRezultatuTabulu);
-            },0);
-         
-        }
-    }
-    function paraditRezultatuTabulu(rez){
-        let saraksts=document.createElement("OL");
-        for (var r in rez){
-        let viens=document.createElement("LI");
-        viens.innerHTML=rez[r]["vards"]+" "+rez[r]["punkti"];
-        saraksts.appendChild(viens);
-        }
-        document.getElementById("spele").appendChild(saraksts);
-    }
-  function dabutRezultatuTabulu(s, fnKadTabulaDabuta){
-      console.log(s);
-    var urla = new URL("http://127.0.0.1:5000/api/rezultati");
-    Object.keys(s).forEach(key => urla.searchParams.append(key,s[key]))
-    fetch(new Request(urla))
-      .then((resp)=>resp.json())
-      .then((data)=>{
-        console.log(data.rezultati);
-        fnKadTabulaDabuta(data.rezultati);
-      });
-  }
-  function paraditSkaitli(sk){
+    function paraditSkaitli(sk){
         sk.style.display="block";
         if(cikKl%2==0){
             pirmais=sk;
@@ -127,7 +85,6 @@
             otrais=sk;
             if(parbauda(pirmais,otrais)){
                 otrais.style.display="block";
-                pieskaitaPunktu();           
             }else{
                 atlauts=false;
                 setTimeout(function(){
@@ -140,10 +97,9 @@
         cikKl++;
     }
     function parbauda(p,o){
-        let xs=p.getAttribute("src");
-        console.log(xs)
+        let xs=p.src;
         let x=xs.substring(xs.indexOf("b")+1,xs.indexOf(".")); 
-        let ys=o.getAttribute("src");
+        let ys=o.src;
         let y=ys.substring(ys.indexOf("b")+1,ys.indexOf("."));
         if(y.length==3&&x.length!=3&&bin[Number(x)+4]==y){
             return true;
@@ -152,14 +108,11 @@
         }
         return false;
     }
-    
     function taimeris() {
         laiks--;
         if( laiks >= 0 ) {
             document.getElementById("idLaiks").innerText = "Laiks:" + laiks;
-            if( punkti < 8 ) {
-                setTimeout( taimeris, 1000 );
-            }
+            setTimeout( taimeris, 1000 );
         } else {
             document.getElementById("idLaiks").innerText = "Laiks beidzies";
         }
@@ -174,3 +127,4 @@
 </script>
 </body>
 </html>
+
