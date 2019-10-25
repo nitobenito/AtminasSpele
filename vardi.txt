@@ -1,0 +1,1 @@
+[{"vards": "SIERS", "punkti": 12}, {"vards": "MIEGS", "punkti": 10}, {"vards": "SLAVA", "punkti": 7}, {"vards": "RINDA", "punkti": 3}, {"vards": "KALNS", "punkti": 4}]
